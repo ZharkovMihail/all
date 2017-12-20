@@ -1,0 +1,63 @@
+#include <cstdio>
+#include <iostream>
+
+using namespace std;
+static const int MAX_SIZE = 100;
+struct Elem {
+	int val;
+	int priority;
+	Elem(int v = 0, int p = 0) {
+		val = v;
+		priority = p;
+	}
+} a[MAX_SIZE];
+struct queue {	
+	int size;
+	void up(int i) {
+		while (i != 0 && a[i].priority > a[(i - 1) / 2].priority) {
+			swap(a[i], a[(i - 1) / 2]);
+			i = (i - 1) / 2;
+		}
+	}
+	void down(int i) {
+		while (i < size / 2) {
+			int maxI = 2 * i + 1;
+			if (2 * i + 2 < size && a[2 * i + 2].priority > a[2 * i + 1].priority)
+				maxI = 2 * i + 2;
+			if (a[i].priority >= a[maxI].priority)
+				return;
+			swap(a[i], a[maxI]);
+			i = maxI;
+		}
+	}
+	void enqueue(int value, int priority) {
+		if (size + 1 == MAX_SIZE) {
+			cout<<"переполнение очереди";
+			return;
+		}
+		a[size++] = Elem(value, priority);
+		up(size - 1);
+	}
+	int dequeue() {
+		if (size == 0) {
+			cout << "переполнение очереди";
+			return -1;
+		}
+		swap(a[0], a[--size]);
+		down(0);
+		return a[size].val;
+	}
+};
+int main() {
+	queue s;
+	int v, p;
+	for (int i = 0; i < 10; i++) {
+		cin >> v;
+	    cin >> p;
+	    s.enqueue(v, p);
+	}
+	for (int i = 0; i < 10; i++) {
+		cout << s.dequeue()<<endl;
+	}
+	return 0;
+}
