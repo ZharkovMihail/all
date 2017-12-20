@@ -1,0 +1,101 @@
+#include <cstdio>
+#include <iostream>
+using namespace std;
+struct node {
+	int data;
+	node *next;
+	node *prev;
+};
+struct list {
+	node *head = NULL;
+	~list() {
+		while (head != NULL) {
+			node *temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+	int front() {
+		if (head == NULL) {
+			return -1;
+		}
+		return head->data;
+	}
+	void pushhead(int x) {
+		node *temp = new node;
+		temp->data = x;
+		temp->next = head;
+		temp->prev = NULL;
+		if (head != NULL) {
+			head->prev = temp;
+		}
+		head = temp;
+	}
+	int pophead() {
+		if (head == NULL) {
+			return -1;
+		}
+		node *temp = head;
+		int t = head->data;
+		head = head->next;
+		if (head != NULL) {
+			head->prev = NULL;
+		}
+		delete temp;
+		return t;
+	}
+	void pushafter(node *x,node *y) {
+		if (x->next != NULL) {
+			y->next = x->next;
+			x->next->prev = y;
+		}
+		x->next = y;
+		y->prev = x;
+	}
+	void nextfirst(node *x) {
+		node *temp = x->next;
+		x->next = x->next->next;
+		if (x->next != NULL) {
+			x->next->prev = x;
+		}
+		node *temp2 = head;
+		while (temp2->next->data>temp->data&&temp2->next!=NULL) {
+			temp2 = temp2->next;
+		}
+		pushafter(temp2, temp);
+	}
+	void sort() {
+		pushhead(10000);
+		node *temp = head;
+		node *temp3;
+		while (temp->next != NULL) {
+			if (temp->data < temp->next->data) {
+				temp3= temp->next;
+				nextfirst(temp);
+				temp = temp3;
+			}else{	
+				temp = temp->next;
+			}
+		}
+		node *temp4 = head;
+		head = head->next;
+		delete temp4;
+	}
+};
+int main() {
+	list s;
+	int c, n;
+	while (0 != 1) {
+		cin >> c;
+		if (c == -1) {
+			break;
+		}
+		s.pushhead(c);
+	}
+	s.sort();
+	while (s.front() != -1) {
+		cout << s.pophead() << endl;
+	}
+	s.~list();
+	return 0;
+}
