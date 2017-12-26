@@ -8,18 +8,15 @@ struct node {
 };
 struct stract {
 	node* head = NULL;
-	node* pushall(int *a, int left, int right) {
-		while (left <= right) {
-			node* temp = new node;
-			temp->data = a[(right - left) / 2];
-			if (left == right) {
-				return temp;
-			}
-			temp->left = pushall(a, left, ((right - left) / 2) - 1);
-			temp->right = pushall(a, ((right - left) / 2) + 1, right);
-			return temp;
-		}
-	}
+	node* push(int l, int r,int *a) {
+	 node* temp = new node();
+	 if (l > r)
+	 	return NULL;
+	 temp->x = a[(l + r) / 2];
+	 temp->right = push((l + r) / 2 + 1, r, a);
+	 temp->left = push(l, (l + r) / 2 - 1, a);
+	 return temp;
+        }
 	void show(node *head) {
 		if (head != NULL) {
 			show(head->left);
