@@ -7,36 +7,54 @@ struct String {
 	String(char *s) {
 		int i;
 		for (i = 0; s[i]; ++i) {
-          l = i;
-		}		
+			l = i;
+		}
 		st = new char[i + 1];
 		for (i = 0; s[i]; ++i) {
 			st[i] = s[i];
-		}			
+		}
 		st[i] = '\0';
 	}
-	void getlength() {
-		cout << l+1 << endl;;
+	int getlength() {
+		return l + 1;
 	}
 	void out() {
-		for (int i = 0; st[i]; ++i)
+		for (int i = 0;st[i]; ++i)
 			cout << st[i];
 	}
 	void put(int n, char ch) {
-		if (n < l &&n >=0 )
+		if (n < l &&n >= 0)
 			st[n] = ch;
 	}
 	~String() {
 		delete[] st;
 	}
 };
-
+String concatenation(String s1, String s2) {
+	int L = s1.l + s2.l+3;
+	cout<< L<<' ';
+	char *s = new char[L];
+	int i=0;
+	for (i; i<s1.l+1; ++i) {
+		s[i] = s1.st[i];
+		cout << s[i];
+	}
+	for (i; i<L-1; ++i) {
+		s[i] = s2.st[i- s1.l-1];
+		cout << s[i]<<'.';
+	}
+	s[L] = '\0';
+	return s;
+}
 int main() {
-	char *f=new char;
+	char *f = new char;
+	char *d = new char;
 	cin >> f;
-	String st(f);
-	st.getlength();
-	st.put(1, '?');
-	st.out();
+	cin >> d;
+	String st1(d);
+	String st2(f);
+	String st3(concatenation(st1, st2));
+	cout<<st3.getlength();
+	st3.out();
 	return 0;
 }
