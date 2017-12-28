@@ -20,13 +20,16 @@ void quickSort(int arr[], int left, int right, int k) {
 			}
 		}
 	}
+	if((k==i)||(k==j))return;
 	if (k < j) {
 		if (left < j)
 		quickSort(arr, left, j,k);
+		return;
 	}
-	if (k >= i) {
+	if (k > i) {
 		if (i < right)
 		quickSort(arr, i, right, k-j);
+		return;
 	}
 }
 int main() {
